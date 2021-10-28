@@ -1,0 +1,32 @@
+
+spring:
+  application:
+    name: nacos-feign-consumer # 这边写什么 注入到nacos服务列表中的服务名就是什么
+  profiles:
+    active: test # 读取配置文件中
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848 # nacos地址根据自己配置的地址修改 本地就是localhost
+        group: DEFAULT_GROUP # nacos中配置管理-配置列表中的Group
+        prefix: ${spring.application.name} # Data Id 前缀
+        file-extension: yaml # 同上 后缀
+        namespace:  ybt # 这边跟上面第二张图片标红色箭头的必须一致
+        refreshable-dataids:
+      #        enabled: false  关闭nacos config
+      discovery:
+        server-addr: localhost:8848 # 注册到nacos
+        namespace:  ybt # 同上
+server:
+  port: 8081
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 600000
+
+
